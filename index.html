@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VeloCiti - Train RFID System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="logo">
+        <i class="fas fa-train"></i>
+        <h1>VeloCiti</h1>
+      </div>
+      <nav>
+        <ul>
+          <li class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</li>
+          <li><i class="fas fa-users"></i> Users</li>
+          <li><i class="fas fa-history"></i> Transactions</li>
+          <li><i class="fas fa-cog"></i> Settings</li>
+        </ul>
+      </nav>
+      <div class="system-status">
+        <h3>System Status</h3>
+        <div class="status-item" id="db-status">
+          <i class="fas fa-database"></i>
+          <span>Database: Connecting...</span>
+        </div>
+        <div class="status-item">
+          <i class="fas fa-server"></i>
+          <span>Server: Online</span>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <header>
+        <div class="search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search users by UUID or name...">
+        </div>
+        <div class="actions">
+          <button id="scan-btn" class="action-btn">
+            <i class="fas fa-qrcode"></i>
+            Simulate RFID Scan
+          </button>
+        </div>
+        <div class="user-info">
+          <span>Admin</span>
+          <div class="avatar">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+      </header>
+
+      <div class="dashboard">
+        <h2>Train RFID System Dashboard</h2>
+
+        <!-- Stats Overview -->
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Total Users</h3>
+              <p class="stat-value" id="total-users">Loading...</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-user-check"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Active Users</h3>
+              <p class="stat-value" id="active-users">Loading...</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <div class="stat-content">
+              <h3>Total Revenue</h3>
+              <p class="stat-value" id="total-revenue">Loading...</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="dashboard-column">
+            <!-- Live Onboarding Section -->
+            <div class="card live-onboarding">
+              <div class="section-header">
+                <h3><i class="fas fa-satellite-dish pulse"></i> Live Onboarding</h3>
+                <span class="status active">LIVE</span>
+              </div>
+              <div class="live-feed" id="live-feed">
+                <div class="empty-state">
+                  <i class="far fa-clock"></i>
+                  <p>Waiting for user scan activity...</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- User Details Card (shows when user is scanned) -->
+            <div class="card user-card" id="user-details-card">
+              <div class="section-header">
+                <h3>Current User</h3>
+              </div>
+              <div id="user-details">
+                <div class="empty-state">
+                  <i class="far fa-user"></i>
+                  <p>No user currently scanned</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-column">
+            <!-- Transaction History -->
+            <div class="card">
+              <div class="section-header">
+                <h3>Transaction History</h3>
+                <button class="refresh-btn" id="refresh-btn">
+                  <i class="fas fa-sync-alt"></i>
+                  Refresh
+                </button>
+              </div>
+              <div class="transaction-history">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>UUID</th>
+                      <th>Name</th>
+                      <th>Action</th>
+                      <th>Time</th>
+                      <th>Balance Change</th>
+                      <th>New Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody id="transaction-table-body">
+                    <!-- Transaction history will be populated here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scan Simulation Modal -->
+  <div class="modal" id="scan-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Simulate RFID Scan</h3>
+        <button class="close-btn" id="close-modal-btn">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Enter a user UUID to simulate an RFID scan:</p>
+        <div class="input-group">
+          <input type="text" id="uuid-input" placeholder="Enter UUID here">
+        </div>
+        <div class="preset-users" id="preset-users">
+          <p>Or select a preset user:</p>
+          <div class="preset-buttons">
+            <!-- Preset users will be populated here -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="secondary-btn" id="cancel-btn">Cancel</button>
+        <button class="primary-btn" id="scan-submit-btn">Scan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container"></div>
+  
+  <div class="loader-container">
+    <div class="loader"></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
