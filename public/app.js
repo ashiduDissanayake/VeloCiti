@@ -2,7 +2,7 @@
 const socket = io();
 
 // API base URL - change this if your server is on a different host/port
-const API_URL = window.location.origin;
+const API_URL = "http://localhost:3000";
 
 // DOM Elements
 const dbStatus = document.getElementById('db-status');

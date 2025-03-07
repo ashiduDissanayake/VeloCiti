@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://<username>:<password>@cluster0.eqbk9.mongodb.net/VeloCitiDB?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://ashidudissanayake1:7MdVdy6DIHXZg7fo@cluster0.eqbk9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
   tls: true
 }).catch(err => console.error('MongoDB connection error:', err));
 

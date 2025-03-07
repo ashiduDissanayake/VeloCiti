@@ -1,0 +1,24 @@
+how the gitignore file looks like
+
+# Ignore the build directory
+/build/
+# Ignore the dist directory
+/dist/
+# Ignore the node_modules directory
+/node_modules/
+# Ignore the .env file
+/.env
+# Ignore the .DS_Store file
+/.DS_Store
+# Ignore the .idea directory
+/.idea/
+# Ignore the .vscode directory
+/.vscode/
+# Ignore the .history directory
+/.history/
+# Ignore the .cache directory
+/.cache/
+# Ignore the .nuxt directory
+/.nuxt/
+# Ignore the .nuxtignore file
+/.nuxtignore
